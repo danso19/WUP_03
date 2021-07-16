@@ -1,7 +1,7 @@
 ---
 title: "Alcohol vs Seat choice"
-author: "Your Name"
-date: "Fall 2020"
+author: "Daniel A Soria A"
+date: "Summer 2021"
 output: html_document
 ---
 
@@ -27,18 +27,50 @@ basicCN <- ggplot(davisdata,aes(y=alcohol,x=Seat))
 ```{r}
 basicCN + geom_boxplot()
 ```
-  
-  
+ 
+```{r}
+boxplot(alcohol~Seat,data=davisdata)
+```  
+
+  It seems that the heavier drinking would correlate with the seating position, simply as the front of the class as noted will not drink much and "heavier drinkers" are rare between this group. The seccond row would suggest that they really do fall in between those two groups as they are what would be an in between groups between the front and the back of the class. The back of the class is the " Heavier drinking group " as over 75% percent of the group sitting in the back drank more collectively than those sitting in the middle or the front. 
 ### get fancy  
+
+```{r}
+basicCN <- ggplot(davisdata,aes(x=Seat,y=alcohol))
+
+basicCN + geom_boxplot()
+```
+  It appears that using this data we may reject the null hypothesis, based on the boxplots, there is a distinguishable difference in how much people drink and thier seating possitings according to this data.
 
 ```{r}
 basicCN + geom_boxplot(notch=TRUE,outlier.color = "red") + stat_boxplot(geom ='errorbar') + labs(title="Fancy notch boxplot \n with 2 lines")
 ```
 
+The whiskers themselves extend about one and a half time the box, meanwhile the red dots indicate outliers, and those are just a select group outside of the trending norm , thus it will not necesseraly mean that that infromation is not correct nor incorrect , just simply means that they fall outside of the norm.
+
 ## Numerical Summarys 
+
+```{r}
+favstats(alcohol~Seat,data=davisdata)
+```
+
+There is a drastic change concerning the means , such as that the mean of the first row is 1.8. The mean of the second row is 3.2, the jumps a considerable amount with the mean of the back row being 9.6.
 
 ## Inferential Tests
 
+```{r}
+model1 <- aov(alcohol~Seat,data=davisdata)
+summary.aov(model1)
+```
+From this all the data gathered we will reject the null hypothesis. but we will see what rows are different from other rows.
+
+```{r}
+plot(TukeyHSD(model1))
+```
+
+From the Tukey boxplot, we were able to diffenciate that there is a difference from the front and the back , also from the back to the middle , however there is no diffrence from the front to the middle.
+
 ## Conclusions
+From all the information gathered we can reject the null hypothesis seeing the difference as seen from the graph as we can see that the back row drinks heavily in comparison the the second row and specially the first.
 
 
